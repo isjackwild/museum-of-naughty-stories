@@ -1,10 +1,10 @@
 const THREE = require('three');
 import { GAIN } from './constants.js';
 
-const INNER_ANGLE = 0;
-const OUTER_ANGLE = 360;
-const OUTER_GAIN = 0;
-const ROLLOFF = 20;
+const INNER_ANGLE = 22.5;
+const OUTER_ANGLE = 45;
+const OUTER_GAIN = 0.2;
+const ROLLOFF = 0.01;
 const REF_DIST = 1;
 const DIST_MODEL = 'exponential';
 let isUnlocked = false;
@@ -56,26 +56,26 @@ export const AudioScene = () => {
 	
 
 	const createPanner = (buffer) => {
-		const pannerForward = context.createPanner();
-		pannerForward.coneOuterGain = OUTER_GAIN;
-		pannerForward.coneOuterAngle = OUTER_ANGLE;
-		pannerForward.coneInnerAngle = INNER_ANGLE;
-		pannerForward.rollofFactor = ROLLOFF;
-		pannerForward.refDistance = REF_DIST;
-		pannerForward.distanceModel = DIST_MODEL;
+		const panner = context.createPanner();
+		panner.coneOuterGain = OUTER_GAIN;
+		panner.coneOuterAngle = OUTER_ANGLE;
+		panner.coneInnerAngle = INNER_ANGLE;
+		panner.rollofFactor = ROLLOFF;
+		panner.refDistance = REF_DIST;
+		panner.distanceModel = DIST_MODEL;
 
 		const gainNode = context.createGain();
 		gainNode.gain.value = 1;
-		pannerForward.connect(gainNode);
+		panner.connect(gainNode);
 		gainNode.connect(globalGainNode);
 
 
 		const source = context.createBufferSource();
 		source.buffer = buffer;
 		source.loop = true;
-		source.connect(pannerForward);
+		source.connect(panner);
 
-		return { source, pannerForward, gainNode };
+		return { source, panner, gainNode };
 	}
 
 	return { createPanner }
