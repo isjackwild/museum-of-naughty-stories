@@ -9,29 +9,44 @@ import { lights, helpers as lightHelpers, init as initLights } from './lighting.
 import { convertToRange } from './lib/maths.js';
 import { update as updateRaycaster } from './raycaster.js';
 import { AudioScene, positionListener } from './sound-handler.js';
-import { WORLD_DIMENTIONS } from './constants';
+import { WORLD_DIMENTIONS, FRAMES_DATA } from './constants';
 
 let loops = 0;
 let bbox = undefined;
 const frames = [];
 let move = false;
 
+
+
+
 export const init = () => {
-	initLights();
+	
 	scene = new THREE.Scene();
 	audioScene = AudioScene();
 	scene.add(camera);
+	
+	FRAMES_DATA.forEach((frame) => {
+		frames.push(
+			new Frame({
+				...frame,
+				position: new THREE.Vector3(frame.x, frame.y, frame.z),
+				audioScene,
+			})
+		)
+	});
+	// const frame = new Frame({
+	// 	position: new THREE.Vector3((WORLD_DIMENTIONS.x / 2) - 1, -30, 0),
+	// 	rotationY: Math.PI / -2,
+	// 	imageSrc: 'assets/maps/img-2.jpg',
+	// 	audioSrc: 'assets/sounds/0.mp3',
+	// 	audioScene,
+	// });
+	// frames.push(frame);
+	initLights(frames);
 	// window.addEventListener('keydown', onKeyDown, true);
 	// window.addEventListener('keyup', onKeyUp, true);
 
-	const frame = new Frame({
-		position: new THREE.Vector3((WORLD_DIMENTIONS.x / 2) - 1, WORLD_DIMENTIONS.y / 24, 0),
-		rotationY: Math.PI / -2,
-		imageSrc: 'assets/maps/img-2.jpg',
-		audioSrc: 'assets/sounds/0.mp3',
-		audioScene,
-	});
-	frames.push(frame);
+	
 
 	lights.forEach((light) => {
 		scene.add(light);
@@ -54,13 +69,15 @@ export const init = () => {
 			bbox = new THREE.BoundingBoxHelper(frame, 0x00ff00);
 			scene.add(bbox);
 		}
+
+		controls.target.copy(frame.position);
 	});
 }
 
 export const update = (delta) => {
 	const position = new THREE.Vector3().copy(camera.position);
 	const direction = new THREE.Vector3().copy(camera.getWorldDirection());
-	if (loops % 10 === 0) updateRaycaster(position, direction, intersectableMeshes);
+	if (loops % 10 === 0) updateRaycaster(position, direction, frames);
 	positionListener(position, direction);
 
 

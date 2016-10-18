@@ -5,11 +5,48 @@ export const lights = [];
 export const helpers = [];
 
 const DECAY = 2;
-const ANGLE = 0.6;
+const ANGLE = 0.5;
 const PENUMBRA = 0.8;
-const SPOT_INTENSITY = 0.4;
+const SPOT_INTENSITY = 0.5;
 
-export const init = () => {
+export const init = (frames) => {
+	setupAmbientLights();
+	setupPointLights();
+	setupSpotlights(frames);
+
+	
+
+	// for (let z = LIGHTING_DIMENTIONS.z / - 2; z <= LIGHTING_DIMENTIONS.z / 2; z += LIGHTS_SPREAD_Z ){
+
+	// 	const spotLeft = new THREE.SpotLight(0xffffff, SPOT_INTENSITY);
+	// 	spotLeft.position.set(LIGHTING_DIMENTIONS.x / -2, (WORLD_DIMENTIONS.y / 2), z);
+	// 	spotLeft.target.position.set(WORLD_DIMENTIONS.x / -2, -50, z);
+	// 	spotLeft.target.updateMatrixWorld();
+	// 	spotLeft.decay = DECAY;
+	// 	spotLeft.angle = ANGLE;
+	// 	spotLeft.penumbra = PENUMBRA;
+	// 	spotLeft.castShadow = true;
+	// 	lights.push(spotLeft);
+
+	// 	const spotRight = new THREE.SpotLight(0xffffff, SPOT_INTENSITY);
+	// 	spotRight.position.set(LIGHTING_DIMENTIONS.x / 2 , (WORLD_DIMENTIONS.y / 2), z);
+	// 	spotRight.target.position.set(WORLD_DIMENTIONS.x / 2, -50, z);
+	// 	spotRight.target.updateMatrixWorld();
+	// 	spotRight.decay = DECAY;
+	// 	spotRight.angle = ANGLE;
+	// 	spotRight.penumbra = PENUMBRA;
+	// 	spotRight.castShadow = true;
+	// 	lights.push(spotRight);
+		
+	// 	if (window.app.debug) {
+	// 		helpers.push(new THREE.SpotLightHelper(spotLeft, 20));
+	// 		helpers.push(new THREE.SpotLightHelper(spotRight, 20));
+	// 	}
+	// }
+}
+
+
+const setupAmbientLights = () => {
 	// UP
 	lights[1] = new THREE.DirectionalLight(LIGHT_COLOUR, 0.44);
 	lights[1].position.set(0, WORLD_DIMENTIONS.y / -2, 0);
@@ -38,9 +75,11 @@ export const init = () => {
 	// 	lightFolder.add(lights[3], 'intensity').step(0.1);
 	// 	helpers.push(new THREE.SpotLightHelper(lights[2]));
 	// }
+}
 
 
-	const Y_OFFSET = 100;
+const setupPointLights = () => {
+	const Y_OFFSET = 30;
 	for (let z = LIGHTING_DIMENTIONS.z / - 2; z <= LIGHTING_DIMENTIONS.z / 2; z += LIGHTS_SPREAD_Z ){
 
 		const lightLeft = new THREE.PointLight(LIGHT_COLOUR, LIGHT_INTENSITY, 0, 2);
@@ -62,32 +101,28 @@ export const init = () => {
 			helpers.push(new THREE.PointLightHelper(lightRight, 20));
 		}
 	}
+}
 
-	for (let z = LIGHTING_DIMENTIONS.z / - 2; z <= LIGHTING_DIMENTIONS.z / 2; z += LIGHTS_SPREAD_Z ){
 
-		const spotLeft = new THREE.SpotLight(0xffffff, SPOT_INTENSITY);
-		spotLeft.position.set(LIGHTING_DIMENTIONS.x / -2, (WORLD_DIMENTIONS.y / 2), z);
-		spotLeft.target.position.set(WORLD_DIMENTIONS.x / -2, WORLD_DIMENTIONS.y / 8, z);
-		spotLeft.target.updateMatrixWorld();
-		spotLeft.decay = DECAY;
-		spotLeft.angle = ANGLE;
-		spotLeft.penumbra = PENUMBRA;
-		spotLeft.castShadow = true;
-		lights.push(spotLeft);
+const setupSpotlights = (frames) => {
+	frames.forEach((frame) => {
+		const spot = new THREE.SpotLight(0xffffff, SPOT_INTENSITY);
+		// spot.position.set(frame.position.x / 1.7, (WORLD_DIMENTIONS.y / 2), frame.position.z);
+		const dir = frame.getWorldDirection(tmp);
+		const tmp = new THREE.Vector3().copy(frame.position).add(dir.multiplyScalar(180));
+		// tmp.multiplyScalar();
+		spot.position.set(tmp.x, (WORLD_DIMENTIONS.y / 2), tmp.z);
 
-		const spotRight = new THREE.SpotLight(0xffffff, SPOT_INTENSITY);
-		spotRight.position.set(LIGHTING_DIMENTIONS.x / 2 , (WORLD_DIMENTIONS.y / 2), z);
-		spotRight.target.position.set(WORLD_DIMENTIONS.x / 2, WORLD_DIMENTIONS.y / 8, z);
-		spotRight.target.updateMatrixWorld();
-		spotRight.decay = DECAY;
-		spotRight.angle = ANGLE;
-		spotRight.penumbra = PENUMBRA;
-		spotRight.castShadow = true;
-		lights.push(spotRight);
-		
-		if (window.app.debug) {
-			helpers.push(new THREE.SpotLightHelper(spotLeft, 20));
-			helpers.push(new THREE.SpotLightHelper(spotRight, 20));
-		}
-	}
+
+		spot.target.position.copy(frame.position);
+		spot.target.updateMatrixWorld();
+		spot.decay = DECAY;
+		spot.angle = ANGLE;
+		spot.penumbra = PENUMBRA;
+		spot.castShadow = true;
+		lights.push(spot);
+
+
+		if (window.app.debug) helpers.push(new THREE.SpotLightHelper(spot, 20));
+	});
 }
