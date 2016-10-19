@@ -9,7 +9,6 @@ export const update = (origin, direction, intersectableObjects = []) => {
 	// 	console.log(mesh);
 	// });
 	intersectableObjects.forEach((object) => {
-		if (!object.ready) return;
 		const res = raycaster.intersectObject(object, true);
 		if (res.length) return object.onFocus();
 		object.onBlur();

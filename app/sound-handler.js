@@ -4,7 +4,7 @@ import { GAIN } from './constants.js';
 const INNER_ANGLE = 22.5;
 const OUTER_ANGLE = 45;
 const OUTER_GAIN = 0.15;
-const ROLLOFF = 0.02;
+const ROLLOFF = 0.016;
 const REF_DIST = 1;
 const DIST_MODEL = 'exponential';
 let isUnlocked = false;
@@ -19,7 +19,6 @@ globalGainNode.connect(context.destination);
 
 const unlockAudio = () => {
 	window.removeEventListener('touchstart', unlockAudio);
-	document.getElementsByClassName('instructions')[0].style.opacity = 0;
 	const buffer = context.createBuffer(1, 1, 22050);
 	const source = context.createBufferSource();
 	source.buffer = buffer;
@@ -65,7 +64,7 @@ export const AudioScene = () => {
 		panner.distanceModel = DIST_MODEL;
 
 		const gainNode = context.createGain();
-		gainNode.gain.value = 1;
+		gainNode.gain.value = 2;
 		panner.connect(gainNode);
 		gainNode.connect(globalGainNode);
 

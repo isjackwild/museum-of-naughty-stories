@@ -72,3 +72,9 @@ export const convertToRange = (value, srcRange, dstRange) => {
  */
 export const osc = ( i ) => ( Math.floor( i ) % 2 === 0 ) ? i % 1 - 0.5 : 1 - ( i % 1 ) -0.5;
 
+export const generateGuid = () => {
+    const S4 = () => {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+}

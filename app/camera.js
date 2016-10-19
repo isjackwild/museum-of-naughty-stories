@@ -5,7 +5,7 @@ require('./vendor/DeviceOrientationControls.js');
 require('./vendor/controls/MouseControls.js');
 const TweenLite = require('gsap');
 import PubSub from 'pubsub-js';
-import { WORLD_DIMENTIONS } from './constants';
+import { WORLD_DIMENTIONS, VIEW_DISTANCE } from './constants';
 
 export let camera, controls;
 
@@ -20,12 +20,9 @@ export const init = () => {
 	PubSub.subscribe('camera.moveTo', moveTo)
 }
 
-const moveTo = (e, object) => {
-	const dir = object.getWorldDirection();
-	const inFront = new THREE.Vector3().copy(object.position).add(dir.multiplyScalar(80));
-
-	TweenLite.to(camera.position, 1.2, {x: inFront.x, y: inFront.y, z: inFront.z });
-	TweenLite.to(controls.target, 1.2, {x: object.position.x, y: object.position.y, z: object.position.z });
+const moveTo = (e, {position, target}) => {
+	TweenLite.to(camera.position, 1.2, {x: position.x, y: position.y, z: position.z });
+	if (target) TweenLite.to(controls.target, 1.2, {x: target.x, y: target.y, z: target.z });
 }
 
 

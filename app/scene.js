@@ -13,14 +13,14 @@ import { WORLD_DIMENTIONS, FRAMES_DATA } from './constants';
 
 let loops = 0;
 let bbox = undefined;
-const frames = [];
 let move = false;
+const frames = [];
+const jumpPoints = [];
 
 
 
 
 export const init = () => {
-	
 	scene = new THREE.Scene();
 	audioScene = AudioScene();
 	scene.add(camera);
@@ -34,19 +34,8 @@ export const init = () => {
 			})
 		)
 	});
-	// const frame = new Frame({
-	// 	position: new THREE.Vector3((WORLD_DIMENTIONS.x / 2) - 1, -30, 0),
-	// 	rotationY: Math.PI / -2,
-	// 	imageSrc: 'assets/maps/img-2.jpg',
-	// 	audioSrc: 'assets/sounds/0.mp3',
-	// 	audioScene,
-	// });
-	// frames.push(frame);
-	initLights(frames);
-	// window.addEventListener('keydown', onKeyDown, true);
-	// window.addEventListener('keyup', onKeyUp, true);
 
-	
+	initLights(frames);
 
 	lights.forEach((light) => {
 		scene.add(light);
@@ -63,21 +52,21 @@ export const init = () => {
 
 	frames.forEach((frame) => {
 		scene.add(frame);
-
+		scene.add(frame.jumpPoint);
 		camera.lookAt(frame.position);
 		if (window.app.debug) {
 			bbox = new THREE.BoundingBoxHelper(frame, 0x00ff00);
 			scene.add(bbox);
 		}
-
 		controls.target.copy(frame.position);
+		jumpPoints.push(frame.jumpPoint);
 	});
 }
 
 export const update = (delta) => {
 	const position = new THREE.Vector3().copy(camera.position);
 	const direction = new THREE.Vector3().copy(camera.getWorldDirection());
-	if (loops % 10 === 0) updateRaycaster(position, direction, frames);
+	if (loops % 10 === 0) updateRaycaster(position, direction, jumpPoints);
 	positionListener(position, direction);
 
 

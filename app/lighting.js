@@ -1,13 +1,10 @@
 const THREE = require('three');
-import { WORLD_DIMENTIONS, LIGHTING_DIMENTIONS, LIGHTS_SPREAD_Z, LIGHT_COLOUR, LIGHT_INTENSITY } from './constants';
+import { WORLD_DIMENTIONS, LIGHTING_DIMENTIONS, LIGHTS_SPREAD_Z, LIGHT_COLOUR, LIGHT_INTENSITY, DECAY, ANGLE, PENUMBRA, SPOT_INTENSITY } from './constants';
 
 export const lights = [];
 export const helpers = [];
 
-const DECAY = 2;
-const ANGLE = 0.5;
-const PENUMBRA = 0.8;
-const SPOT_INTENSITY = 0.5;
+
 
 export const init = (frames) => {
 	setupAmbientLights();
@@ -48,9 +45,9 @@ export const init = (frames) => {
 
 const setupAmbientLights = () => {
 	// UP
-	lights[1] = new THREE.DirectionalLight(LIGHT_COLOUR, 0.44);
-	lights[1].position.set(0, WORLD_DIMENTIONS.y / -2, 0);
-	lights[1].target.position.set(0, WORLD_DIMENTIONS.y / 2, 0);
+	lights[0] = new THREE.DirectionalLight(LIGHT_COLOUR, 0.44);
+	lights[0].position.set(0, WORLD_DIMENTIONS.y / -2, 0);
+	lights[0].target.position.set(0, WORLD_DIMENTIONS.y / 2, 0);
 
 	// DOWN
 	// lights[2] = new THREE.DirectionalLight(LIGHT_COLOUR, 0.3);
@@ -86,18 +83,17 @@ const setupPointLights = () => {
 		lightLeft.position.set(LIGHTING_DIMENTIONS.x / -2, (WORLD_DIMENTIONS.y / 2) - Y_OFFSET, z);
 		lights.push(lightLeft);
 
-		const lightCenter = new THREE.PointLight(LIGHT_COLOUR, LIGHT_INTENSITY, 0, 2);
-		lightCenter.position.set(0, (WORLD_DIMENTIONS.y / 2) - Y_OFFSET, z);
-		lights.push(lightCenter);
+		// const lightCenter = new THREE.PointLight(LIGHT_COLOUR, LIGHT_INTENSITY, 0, 2);
+		// lightCenter.position.set(0, (WORLD_DIMENTIONS.y / 2) - Y_OFFSET, z);
+		// lights.push(lightCenter);
 
 		const lightRight = new THREE.PointLight(LIGHT_COLOUR, LIGHT_INTENSITY, 0, 2);
 		lightRight.position.set(LIGHTING_DIMENTIONS.x / 2 , (WORLD_DIMENTIONS.y / 2) - Y_OFFSET, z);
 		lights.push(lightRight);
-		const helperRight = new THREE.PointLightHelper(lightRight, 20);
 		
 		if (window.app.debug) {
 			helpers.push(new THREE.PointLightHelper(lightLeft, 20));
-			helpers.push(new THREE.PointLightHelper(lightCenter, 20));
+			// helpers.push(new THREE.PointLightHelper(lightCenter, 20));
 			helpers.push(new THREE.PointLightHelper(lightRight, 20));
 		}
 	}

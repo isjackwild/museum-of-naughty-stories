@@ -1,13 +1,14 @@
 const THREE = require('three');
 import PubSub from 'pubsub-js';
-import { WORLD_DIMENTIONS } from './constants';
+import { WORLD_DIMENTIONS, VIEW_DISTANCE } from './constants';
 import { decode } from './sound-handler.js';
+import { JumpPoint } from './jump-point.js';
 
 const WIDTH_WIDE = 180;
 const WIDTH_TALL = 110;
 const FRAME_WIDTH = 6;
 const FRAME_DEPTH = 3;
-const TRIGGER_DURATION = 2222;
+
 
 
 export class Frame extends THREE.Object3D {
@@ -15,8 +16,6 @@ export class Frame extends THREE.Object3D {
 		super();
 		this.ready = false;
 		this.aspectRatio = 0;
-
-
 		this.rotation.y = rotationY;
 		this.position.copy(position);
 		this.castShadow = true;
@@ -24,10 +23,13 @@ export class Frame extends THREE.Object3D {
 		this.audioScene = audioScene;
 		this.audioSrc = audioSrc;
 		this.imageSrc = imageSrc;
-		this.isInFocus = false;
-		this.triggerTO = null;
+		this.jumpPoint = undefined;
 
 		this.updateMatrixWorld();
+		const dir = this.getWorldDirection();
+		const inFront = new THREE.Vector3().copy(this.position).add(dir.multiplyScalar(VIEW_DISTANCE));
+		this.jumpPoint = new JumpPoint(inFront, rotationY, position);
+
 		this.loadImage();
 		this.loadSound();
 	}
@@ -93,7 +95,6 @@ export class Frame extends THREE.Object3D {
 
 			const loudSpeakerHelper = new THREE.SpotLightHelper(loudSpeakerLight);
 			this.parent.add(loudSpeakerHelper);
-			console.log(loudSpeakerLight);
 		}
 	}
 
@@ -129,23 +130,6 @@ export class Frame extends THREE.Object3D {
 		setTimeout(() => {
 			this.ready = true;
 		}, 0);
-	}
-
-	onFocus() {
-		if (this.isInFocus) return;
-		this.isInFocus = true;
-		this.frameMaterial.color.set(0xff0000);
-
-		this.triggerTO = setTimeout(() => {
-			PubSub.publish('camera.moveTo', this);
-		}, TRIGGER_DURATION);
-	}
-
-	onBlur() {
-		if (!this.isInFocus) return;
-		clearTimeout(this.triggerTO);
-		this.isInFocus = false;
-		this.frameMaterial.color.set(0x333333);
 	}
 }
 
