@@ -6,13 +6,13 @@ export const GAIN = 1;
 // ROOM
 export const WORLD_DIMENTIONS = {
 	x: 600,
-	y: 350,
+	y: 400,
 	z: 1000, 
 }
 
 
 // TIMINGS
-export const TRIGGER_DURATION = 1.8;
+export const TRIGGER_DURATION = 1.3;
 
 
 
@@ -27,7 +27,7 @@ export const LIGHTING_DIMENTIONS = {
 }
 export const LIGHTS_SPREAD_Z = LIGHTING_DIMENTIONS.z / 2;
 export const LIGHT_COLOUR = 0xf9fbff;
-export const LIGHT_INTENSITY = 0.166;
+export const LIGHT_INTENSITY = 0.18;
 export const DECAY = 2;
 export const ANGLE = 0.58;
 export const PENUMBRA = 0.8;

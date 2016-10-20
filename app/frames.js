@@ -104,7 +104,7 @@ export class Frame extends THREE.Object3D {
 
 	setupFrame() {
 		const material = new THREE.MeshStandardMaterial({
-			color: 0x333333,
+			color: 0x202020,
 			roughness: 0.0,
 			metalness: 0,
 		});

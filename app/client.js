@@ -5,6 +5,7 @@ import { init as initLoop, renderer } from './loop.js';
 import { init as initScene } from './scene.js';
 import { init as initCamera} from './camera.js';
 import { camera } from './camera.js';
+import { startIntro } from './intro.js';
 import _ from 'lodash';
 
 window.app = window.app || {};
@@ -18,6 +19,7 @@ const kickIt = () => {
 	initCamera();
 	initScene();
 	initLoop();
+	startIntro();
 }
 
 const onResize = () => {

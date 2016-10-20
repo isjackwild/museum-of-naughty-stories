@@ -53,7 +53,6 @@ export const init = () => {
 	frames.forEach((frame) => {
 		scene.add(frame);
 		scene.add(frame.jumpPoint);
-		camera.lookAt(frame.position);
 		if (window.app.debug) {
 			bbox = new THREE.BoundingBoxHelper(frame, 0x00ff00);
 			scene.add(bbox);
