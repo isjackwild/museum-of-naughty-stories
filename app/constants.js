@@ -1,5 +1,5 @@
 // AUDIO
-export const GAIN = 1;
+export const GAIN = 5;
 
 
 
@@ -36,6 +36,9 @@ export const SPOT_INTENSITY = 0.35;
 
 
 // FRAMES
+export const FRAME_COLOUR = 0xf9c700;
+// export const FRAME_COLOUR = 0xff91cb;
+
 const FRAMES_HANG_HEIGHT = -20;
 export const FRAMES_DATA = [
 	{
@@ -67,7 +70,7 @@ export const FRAMES_DATA = [
 		y: FRAMES_HANG_HEIGHT,
 		z: WORLD_DIMENTIONS.x / -3,
 		rotationY: Math.PI / 2,
-		imageSrc: 'assets/maps/img-3.jpg',
+		imageSrc: 'assets/maps/gel-pens.jpg',
 		// audioSrc: 'assets/sounds/3.mp3',
 	},
 	{
@@ -75,8 +78,8 @@ export const FRAMES_DATA = [
 		y: FRAMES_HANG_HEIGHT,
 		z: WORLD_DIMENTIONS.x / 3,
 		rotationY: Math.PI / 2,
-		imageSrc: 'assets/maps/img-4.jpg',
-		// audioSrc: 'assets/sounds/4.mp3',
+		imageSrc: 'assets/maps/champagne.jpg',
+		audioSrc: 'assets/sounds/champagne.mp3',
 	},
 	{
 		x: 0,

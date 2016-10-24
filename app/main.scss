@@ -11,6 +11,23 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: 'Work Sans';
+    src: url('../webfonts/WorkSans-Regular.ttf');
+    src: url('../webfonts/WorkSans-Regular.woff2') format('woff2'),
+         url('../webfonts/WorkSans-Regular.ttf') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Work Sans Bold';
+    src: url('../webfonts/WorkSans-Bold.ttf');
+    src: url('../webfonts/WorkSans-Bold.woff2') format('woff2'),
+         url('../webfonts/WorkSans-Bold.woff') format('woff');
+    font-weight: 600;
+}
+
 body, html {
 	padding: 0;
 	margin: 0;
@@ -33,29 +50,31 @@ p {
 }
 
 .text {
-	font-family: 'Roboto', 'Hevletica', sans-serif;
+	font-family: 'Work Sans', 'Helvetica', sans-serif;
 	color: white;
-	font-weight: 200;
-	font-size: 20px;
-	letter-spacing: 0.3px;
+	font-weight: normal;
+	font-size: 16px;
+	letter-spacing: 0.9px;
 }
 
+
 .button {
-	background: #fff;
+	background: rgba(#fff, 0.75);
 	border-radius: 3px;
-	border: 1px solid #979797;
-	letter-spacing: 0.3px;
-	font-family: 'Roboto', 'Hevletica', sans-serif;
+	border: 1px solid #fff;
+	letter-spacing: 1.3px;
+	font-family: 'Work Sans', 'Helvetica', sans-serif;
+	text-transform: uppercase;
 	font-weight: normal;
 	padding: 5px 14px 5px 13px;
-	font-size: 17px;
+	font-size: 12px;
 	color: #000;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-user-select: none;
 }
 
 .button--touched {
-	background: #aaa;
+	background: rgba(#aaa, 0.75);
 	color: #333;
 }
 
@@ -93,8 +112,15 @@ p {
 // }
 
 .shim {
-	background: rgba(#1B1B1B, 0.95);
+	background: rgba(#0090a3, 0.95);
+	background: linear-gradient(192deg, rgba(0, 144, 163, 0.95) 1%, rgba(165, 165, 165, 0.95) 100%);
 	pointer-events: none;
+}
+
+.button--about {
+	position: absolute; 
+	bottom: 12px;
+	right: 12px;
 }
 
 .content-frame {
@@ -108,7 +134,8 @@ p {
 }
 
 .content-frame--loading, .content-frame--rotate, .content-frame--device {
-	background: #252525;
+	background: #0090a3;
+	background: linear-gradient(192deg, rgba(0, 144, 163, 1) 1%, rgba(165, 165, 165, 1) 100%);
 }
 
 
@@ -148,7 +175,7 @@ body.unsupported .content-frame--device {
 	margin-bottom: 0;
 }
 
-.button--got-it {
+.button--got-it, .button--back {
 	margin-top: -10px;
 	pointer-events: auto;
 	cursor: pointer;

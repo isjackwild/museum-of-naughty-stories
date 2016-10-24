@@ -1,5 +1,5 @@
 const THREE = require('three');
-import { VIEW_DISTANCE, TRIGGER_DURATION } from './constants';
+import { VIEW_DISTANCE, TRIGGER_DURATION, FRAME_COLOUR } from './constants';
 import { Noise } from 'noisejs';
 import { generateGuid } from './lib/maths.js';
 import PubSub from 'pubsub-js';
@@ -8,7 +8,7 @@ const TweenLite = require('gsap');
 const INACTIVE_SCALE = 0.4;
 const INACTIVE_POSITION = -20;
 const INACTIVE_OPACITY = 0.6;
-const MAX_NOISE_OFFSET = 8;
+const MAX_NOISE_OFFSET = 10;
 const NOISE_SPEED = 10000;
 
 export class JumpPoint extends THREE.Object3D {
@@ -46,7 +46,7 @@ export class JumpPoint extends THREE.Object3D {
 	setupTarget() {
 		const geom = new THREE.SphereGeometry(25, 25, 32);
 		const material = new THREE.MeshStandardMaterial({
-			color: 0xffffff,
+			color: FRAME_COLOUR,
 			metalness: 0,
 			roughness: 0,
 			transparent: true,

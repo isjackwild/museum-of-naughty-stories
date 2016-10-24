@@ -4,7 +4,7 @@ import { GAIN } from './constants.js';
 const INNER_ANGLE = 22.5;
 const OUTER_ANGLE = 45;
 const OUTER_GAIN = 0.15;
-const ROLLOFF = 0.016;
+const ROLLOFF = 0.022;
 const REF_DIST = 1;
 const DIST_MODEL = 'exponential';
 let isUnlocked = false;
@@ -64,7 +64,7 @@ export const AudioScene = () => {
 		panner.distanceModel = DIST_MODEL;
 
 		const gainNode = context.createGain();
-		gainNode.gain.value = 2;
+		gainNode.gain.value = 1;
 		panner.connect(gainNode);
 		gainNode.connect(globalGainNode);
 

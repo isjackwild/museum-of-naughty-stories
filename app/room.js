@@ -71,7 +71,8 @@ walls[4].receiveShadow = true;
 // Bottom
 geom = new THREE.PlaneGeometry(WORLD_DIMENTIONS.x, WORLD_DIMENTIONS.z);
 const floorMaterial = new THREE.MeshStandardMaterial({
-	color: 0x222222,
+	// color: 0x222222,
+	color: 0x0090a3,
 	roughnessMap: textures.floor.specularMap,
 	roughness: 0.22,
 	bumpMap: textures.walls.bumpMap,

@@ -1,5 +1,6 @@
 const THREE = require('three');
 const dat = require('dat-gui');
+const TweenLite = require('gsap');
 require('./vendor/modernizr-custom.js');
 
 import { init as initLoop, renderer } from './loop.js';
@@ -13,7 +14,13 @@ import PubSub from 'pubsub-js';
 window.app = window.app || {};
 
 const buttons = document.getElementsByClassName('button');
-console.log(Modernizr, '<<<');
+const aboutButton = document.getElementsByClassName('button--about')[0];
+const backButton = document.getElementsByClassName('button--back')[0];
+const about = document.getElementsByClassName('content-frame--about')[0];
+const shim = document.getElementsByClassName('shim')[0];
+let aboutShown = false;
+const ABOUT_TRANSITION_DURATION = 0.4;
+
 if (!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
 	document.body.classList.add('unsupported');
 	window.app.supported = false;
@@ -23,7 +30,7 @@ if (!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touche
 
 
 const kickIt = () => {
-	if (!window.app.supported) return;
+	// if (!window.app.supported) return;
 
 	const loadingFrame = document.getElementsByClassName('content-frame--loading')[0].style.opacity = 1;
 
@@ -35,6 +42,7 @@ const kickIt = () => {
 	window.app.introFinished = false;
 	window.app.introStarted = false;
 	PubSub.subscribe('intro.complete', () => { window.app.introFinished = true });
+	
 	window.addEventListener('orientationchange', () => {
 		window.app.orientation = window.innerWidth > window.innerHeight ? 'l' : 'p';
 		if (!window.app.introStarted && window.app.orientation === 'l') {
@@ -50,11 +58,50 @@ const kickIt = () => {
 		button.addEventListener('touchend', e => { e.target.classList.remove('button--touched') });
 	}
 
+	aboutButton.addEventListener('click', showAbout);
+	backButton.addEventListener('click', hideAbout);
+
 	addEventListeners();
 	onResize();
 	initCamera();
 	initScene();
 	initLoop();
+}
+
+const showAbout = () => {
+	if (aboutShown) return;
+	const tl = new TimelineLite();
+	tl.to(shim, ABOUT_TRANSITION_DURATION, {
+		opacity: 1,
+		ease: Sine.easeInOut,
+	}, 0);
+	tl.to(about, ABOUT_TRANSITION_DURATION, {
+		opacity: 1,
+		ease: Sine.easeInOut,
+	}, 0);
+	tl.to(aboutButton, ABOUT_TRANSITION_DURATION, {
+		opacity: 0,
+		ease: Sine.easeInOut,
+	}, 0);
+	aboutShown = true;
+}
+
+const hideAbout = () => {
+	if (!aboutShown) return;
+	const tl = new TimelineLite();
+	tl.to(shim, ABOUT_TRANSITION_DURATION, {
+		opacity: 0,
+		ease: Sine.easeInOut
+	}, 0);
+	tl.to(about, ABOUT_TRANSITION_DURATION, {
+		opacity: 0,
+		ease: Sine.easeInOut,
+	}, 0);
+	tl.to(aboutButton, ABOUT_TRANSITION_DURATION, {
+		opacity: 1,
+		ease: Sine.easeInOut,
+	}, 0);
+	aboutShown = false;
 }
 
 

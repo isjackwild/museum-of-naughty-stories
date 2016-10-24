@@ -1,13 +1,13 @@
 const THREE = require('three');
 import PubSub from 'pubsub-js';
-import { WORLD_DIMENTIONS, VIEW_DISTANCE } from './constants';
+import { WORLD_DIMENTIONS, VIEW_DISTANCE, FRAME_COLOUR } from './constants';
 import { decode } from './sound-handler.js';
 import { JumpPoint } from './jump-point.js';
 import { textureLoader, audioLoader } from './loader.js';
 
 const WIDTH_WIDE = 180;
 const WIDTH_TALL = 110;
-const FRAME_WIDTH = 6;
+const FRAME_WIDTH = 8;
 const FRAME_DEPTH = 3;
 
 
@@ -32,7 +32,7 @@ export class Frame extends THREE.Object3D {
 		this.jumpPoint = new JumpPoint(inFront, rotationY, position);
 
 		this.loadImage();
-		this.loadSound();
+		if (audioSrc) this.loadSound();
 	}
 
 	loadImage() {
@@ -106,7 +106,7 @@ export class Frame extends THREE.Object3D {
 
 	setupFrame() {
 		const material = new THREE.MeshStandardMaterial({
-			color: 0x202020,
+			color: FRAME_COLOUR,
 			roughness: 0.0,
 			metalness: 0,
 		});
