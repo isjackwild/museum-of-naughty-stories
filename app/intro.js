@@ -28,7 +28,7 @@ export const startIntro = () => {
 		ease: Power3.easeOut,
 	},
 	STAGGER_LONG);
-	tl.to(welcome, 2.8, {
+	tl.to(welcome, 2.2, {
 		y: -5,
 		ease: Power0.easeNone
 	},

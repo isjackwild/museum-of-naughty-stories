@@ -65,7 +65,7 @@ export const init = () => {
 export const update = (delta) => {
 	const position = new THREE.Vector3().copy(camera.position);
 	const direction = new THREE.Vector3().copy(camera.getWorldDirection());
-	if (loops % 10 === 0) updateRaycaster(position, direction, jumpPoints);
+	if (loops % 10 === 0 && window.app.introFinished) updateRaycaster(position, direction, jumpPoints);
 	positionListener(position, direction);
 
 

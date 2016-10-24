@@ -3,6 +3,7 @@ import PubSub from 'pubsub-js';
 import { WORLD_DIMENTIONS, VIEW_DISTANCE } from './constants';
 import { decode } from './sound-handler.js';
 import { JumpPoint } from './jump-point.js';
+import { textureLoader, audioLoader } from './loader.js';
 
 const WIDTH_WIDE = 180;
 const WIDTH_TALL = 110;
@@ -35,8 +36,7 @@ export class Frame extends THREE.Object3D {
 	}
 
 	loadImage() {
-		const loader = new THREE.TextureLoader();
-		loader.load(this.imageSrc, this.onLoadImage.bind(this));
+		textureLoader.load(this.imageSrc, this.onLoadImage.bind(this));
 	}
 
 	onLoadImage(texture) {
@@ -45,7 +45,7 @@ export class Frame extends THREE.Object3D {
 		const geom = new THREE.PlaneGeometry(width, width * this.aspectRatio);
 		const material = new THREE.MeshStandardMaterial({
 			color: 0xffffff,
-			roughness: 0.25,
+			roughness: 0.3,
 			metalness: 0.06,
 			map: texture,
 		});
@@ -57,23 +57,25 @@ export class Frame extends THREE.Object3D {
 	}
 
 	loadSound() {
-		this.request = new XMLHttpRequest();
-		this.request.open('GET', this.audioSrc, true);
-		this.request.responseType = 'arraybuffer'
-		this.request.onload = this.onLoadSound.bind(this);
-		this.request.send();
+		// this.request = new XMLHttpRequest();
+		// this.request.open('GET', this.audioSrc, true);
+		// this.request.responseType = 'arraybuffer'
+		// this.request.onload = this.onLoadSound.bind(this);
+		// this.request.send();
+
+		audioLoader.load(this.audioSrc, this.onDecodeSound.bind(this));
 	}
 
-	onLoadSound(e) {
-		if (e.target.readyState === 4 && e.target.status === 200) {
-			decode(e.target.response, this.onDecodeSound.bind(this), this.onErrorDecodeSound);
-		} else if (e.target.readyState === 4) {
-			console.error('Error: Sound probably missing');
-		}
-	}
+	// onLoadSound(e) {
+	// 	if (e.target.readyState === 4 && e.target.status === 200) {
+	// 		decode(e.target.response, this.onDecodeSound.bind(this), this.onErrorDecodeSound);
+	// 	} else if (e.target.readyState === 4) {
+	// 		console.error('Error: Sound probably missing');
+	// 	}
+	// }
 
-	onDecodeSound(e) {
-		this.loudSpeaker = this.audioScene.createPanner(e);
+	onDecodeSound(buffer) {
+		this.loudSpeaker = this.audioScene.createPanner(buffer);
 		this.loudSpeaker.panner.setPosition(this.position.x, this.position.y, this.position.z);
 		const dir = this.getWorldDirection();
 		this.loudSpeaker.panner.setOrientation(dir.x, dir.y, dir.z);

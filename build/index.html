@@ -13,10 +13,6 @@
 	<canvas class="canvas"></canvas>
 	<div class="shim"></div>
 
-	<div class="content-frame content-frame--loading">
-		<span class="wordmark wordmark--loader">The museum of naughty stories</span>
-		<span class="text">loading</span>
-	</div>
 
 	<div class="content-frame content-frame--welcome">
 		<span class="text text--welcome-to">welcome to</span>
@@ -24,21 +20,48 @@
 	</div>
 
 	<div class="content-frame content-frame--instructions">
+		<div class="layout-section"></div>
 		<div class="instructions">
-			<span class="instructions__instruction text">Move your device to look around the museum</span>
-			<span class="instructions__instruction text">Use your headphones to listen to the stories</span>
-			<span class="instructions__instruction text">Focus on a jump-point to explore the space</span>
+			<span class="instructions__instruction text">Move your device to look around</span>
+			<span class="instructions__instruction text">Use your headphones to listen</span>
+			<span class="instructions__instruction text">Focus on a jump-point to explore</span>
 		</div>
-		<span class="button button--got-it">Got it!</span>
+		<div class="layout-section">
+			<span class="button button--got-it">Got it!</span>
+		</div>
+	</div>
+	
+	<div class="content-frame content-frame--about">
+		<p class="text">
+			The Museum of Naughty Stories is a response to a brief set on the RDP Elective in the School of Communication at the Royal College of Art, London.
+		</p>
+		<p class="text">
+			Design and Development by <a href="http://www.isjackwild.com" target="blank">Jack Wild</a>.
+		</p>
 	</div>
 
 	<div class="content-frame content-frame--rotate">
+		<div class="layout-section"></div>
 		<span class="wordmark wordmark--rotate">The museum of<br/>naughty stories</span>
-		<span class="text">Please rotate your device</span>
+		<div class="layout-section">
+			<span class="text text--rotate">Please rotate your device</span>
+		</div>
+	</div>
+
+	<div class="content-frame content-frame--loading">
+		<div class="layout-section"></div>
+		<span class="wordmark wordmark--loader">The museum of naughty stories</span>
+		<div class="layout-section">
+			<span class="text text--loading">loading <span class="progress">0%</span></span>
+		</div>
 	</div>
 
 	<div class="content-frame content-frame--device">
+		<div class="layout-section"></div>
 		<span class="wordmark wordmark--device">The museum of naughty stories</span>
+		<div class="layout-section">
+			<p class="text text--device">The Museum of Naughty Stories is built for mobile,<br/> please come back on your phone or tablet.<p>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="assets/js/main.js"></script>

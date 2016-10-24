@@ -1,18 +1,17 @@
 const THREE = require('three');
 import { WORLD_DIMENTIONS } from './constants';
-
-const loader = new THREE.TextureLoader();
+import { textureLoader } from './loader.js';
 export const walls = [];
 export const materials = [];
 let geom;
 
 const textures = {
 	floor: {
-		specularMap: loader.load(`assets/maps/floor--specular.jpg`),
-		bumpMap: loader.load(`assets/maps/floor--bump.jpg`),
+		specularMap: textureLoader.load(`assets/maps/floor--specular.jpg`),
+		bumpMap: textureLoader.load(`assets/maps/floor--bump.jpg`),
 	},
 	walls: {
-		bumpMap: loader.load(`assets/maps/walls--bump.jpg`),
+		bumpMap: textureLoader.load(`assets/maps/walls--bump.jpg`),
 	}
 }
 

@@ -3,6 +3,9 @@ require('./vendor/TrackballControls.js');
 require('./vendor/OrbitControls.js');
 require('./vendor/DeviceOrientationControls.js');
 require('./vendor/controls/MouseControls.js');
+
+require('./vendor/controls/MouseControls.js');
+
 const TweenLite = require('gsap');
 import PubSub from 'pubsub-js';
 import { WORLD_DIMENTIONS, VIEW_DISTANCE } from './constants';

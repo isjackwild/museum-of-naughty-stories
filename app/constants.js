@@ -27,11 +27,11 @@ export const LIGHTING_DIMENTIONS = {
 }
 export const LIGHTS_SPREAD_Z = LIGHTING_DIMENTIONS.z / 2;
 export const LIGHT_COLOUR = 0xf9fbff;
-export const LIGHT_INTENSITY = 0.18;
+export const LIGHT_INTENSITY = 0.15;
 export const DECAY = 2;
 export const ANGLE = 0.58;
 export const PENUMBRA = 0.8;
-export const SPOT_INTENSITY = 0.5;
+export const SPOT_INTENSITY = 0.35;
 
 
 
@@ -43,24 +43,24 @@ export const FRAMES_DATA = [
 		y: FRAMES_HANG_HEIGHT,
 		z: (WORLD_DIMENTIONS.z / 2) -1,
 		rotationY: Math.PI,
-		imageSrc: 'assets/maps/img-0.jpg',
-		audioSrc: 'assets/sounds/0.mp3',
+		imageSrc: 'assets/maps/stool.jpg',
+		audioSrc: 'assets/sounds/stool.mp3',
 	},
 	{
 		x: (WORLD_DIMENTIONS.x / 2) - 1,
 		y: FRAMES_HANG_HEIGHT,
 		z: WORLD_DIMENTIONS.x / -3,
 		rotationY: Math.PI / -2,
-		imageSrc: 'assets/maps/img-1.jpg',
-		audioSrc: 'assets/sounds/1.mp3',
+		imageSrc: 'assets/maps/eye-test.jpg',
+		audioSrc: 'assets/sounds/eye-test.mp3',
 	},
 	{
 		x: (WORLD_DIMENTIONS.x / 2) - 1,
 		y: FRAMES_HANG_HEIGHT,
 		z: WORLD_DIMENTIONS.x / 3,
 		rotationY: Math.PI / -2,
-		imageSrc: 'assets/maps/img-2.jpg',
-		audioSrc: 'assets/sounds/2.mp3',
+		imageSrc: 'assets/maps/fence.jpg',
+		audioSrc: 'assets/sounds/fence.mp3',
 	},
 	{
 		x: (WORLD_DIMENTIONS.x / -2) + 1,
@@ -68,7 +68,7 @@ export const FRAMES_DATA = [
 		z: WORLD_DIMENTIONS.x / -3,
 		rotationY: Math.PI / 2,
 		imageSrc: 'assets/maps/img-3.jpg',
-		audioSrc: 'assets/sounds/3.mp3',
+		// audioSrc: 'assets/sounds/3.mp3',
 	},
 	{
 		x: (WORLD_DIMENTIONS.x / -2) + 1,
@@ -76,7 +76,7 @@ export const FRAMES_DATA = [
 		z: WORLD_DIMENTIONS.x / 3,
 		rotationY: Math.PI / 2,
 		imageSrc: 'assets/maps/img-4.jpg',
-		audioSrc: 'assets/sounds/4.mp3',
+		// audioSrc: 'assets/sounds/4.mp3',
 	},
 	{
 		x: 0,
@@ -84,6 +84,6 @@ export const FRAMES_DATA = [
 		z: (WORLD_DIMENTIONS.z / -2) + 1,
 		rotationY: 0,
 		imageSrc: 'assets/maps/img-5.jpg',
-		audioSrc: 'assets/sounds/5.mp3',
+		// audioSrc: 'assets/sounds/5.mp3',
 	},
 ]

@@ -1,5 +1,11 @@
 const THREE = require('three');
 require('./vendor/StereoEffect.js');
+require('./vendor/postprocessing/EffectComposer.js');
+require('./vendor/postprocessing/RenderPass.js');
+require('./vendor/postprocessing/ShaderPass.js');
+require('./vendor/shaders/HorizontalBlurShader.js');
+require('./vendor/shaders/VerticalBlurShader.js');
+require('./vendor/shaders/CopyShader.js');
 import { init as initScene, scene, update as updateScene } from './scene.js';
 import { init as initCamera, camera } from './camera.js';
 
@@ -7,7 +13,7 @@ import { init as initCamera, camera } from './camera.js';
 let canvas;
 let raf, then, now, delta;
 let currentCamera, currentScene;
-export let renderer, stereoFx;
+export let renderer, stereoFx, composer, hblur, vblur;
 
 export const init = () => {
 	canvas = document.getElementsByClassName('canvas')[0];
@@ -31,6 +37,19 @@ const setupRenderer = () => {
 	renderer.setClearColor(0x282828);
 	renderer.setPixelRatio(window.devicePixelRatio);
 	renderer.setSize(window.innerWidth, window.innerHeight);
+
+	// composer = new THREE.EffectComposer(renderer);
+	// composer.addPass( new THREE.RenderPass(scene, camera));
+
+	// hblur = new THREE.ShaderPass( THREE.HorizontalBlurShader );
+	// composer.addPass(hblur);
+
+	// vblur = new THREE.ShaderPass( THREE.VerticalBlurShader );
+	// vblur.renderToScreen = true;
+	// console.log(vblur);
+	// composer.addPass(vblur);
+
+
 	// renderer.shadowMap.enabled = true;
 	// renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -50,6 +69,7 @@ const update = (delta) => {
 }
 
 const render = () => {
+	// composer.render();
 	if (window.location.search.indexOf('vr') > -1) {
 		stereoFx.render(currentScene, currentCamera);
 	} else {

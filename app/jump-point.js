@@ -1,12 +1,15 @@
 const THREE = require('three');
 import { VIEW_DISTANCE, TRIGGER_DURATION } from './constants';
+import { Noise } from 'noisejs';
 import { generateGuid } from './lib/maths.js';
 import PubSub from 'pubsub-js';
 const TweenLite = require('gsap');
 
 const INACTIVE_SCALE = 0.4;
-const INACTIVE_POSITION = -30;
+const INACTIVE_POSITION = -20;
 const INACTIVE_OPACITY = 0.6;
+const MAX_NOISE_OFFSET = 8;
+const NOISE_SPEED = 10000;
 
 export class JumpPoint extends THREE.Object3D {
 	constructor(position, rotationY, viewTarget) {
@@ -15,17 +18,22 @@ export class JumpPoint extends THREE.Object3D {
 		this.isInFocus = false;
 		this.isActive = true;
 		this.rotation.y = rotationY;
+		this.originalPosition = position;
 		this.position.copy(position);
 		this.viewTarget = viewTarget;
 		this.targetMaterial = null;
 		this.tl = null;
+		this.noise = new Noise(Math.random());
+		this.raf = null;
 		PubSub.subscribe('camera.moveTo', (e, { guid }) => {
-			console.log(guid);
-			if (guid !== this.guid) this.isActive = true;
+			if (guid === this.guid) return;
+			this.isActive = true;
+			this.onBlur(false, true);
 		});
 
 		this.setupHitArea();
 		this.setupTarget();
+		this.noiseOffset();
 	}
 
 	setupHitArea() {
@@ -47,6 +55,18 @@ export class JumpPoint extends THREE.Object3D {
 		this.target = new THREE.Mesh(geom, material);
 		this.target.scale.set(INACTIVE_SCALE, INACTIVE_SCALE, INACTIVE_SCALE);
 		this.add(this.target);
+	}
+
+	noiseOffset() {
+		const now = new Date().getTime() / NOISE_SPEED;
+		const position = new THREE.Vector3(
+			this.noise.simplex3(now, 0, 0) * MAX_NOISE_OFFSET,
+			this.noise.simplex3(0, now, 0) * MAX_NOISE_OFFSET,
+			this.noise.simplex3(0, 0, now) * MAX_NOISE_OFFSET,
+		).add(this.originalPosition);
+
+		this.position.copy(position)
+		this.raf = requestAnimationFrame(this.noiseOffset.bind(this));
 	}
 
 	onFocus() {
@@ -94,8 +114,8 @@ export class JumpPoint extends THREE.Object3D {
 		);
 	}
 
-	onBlur(isTriggered) {
-		if (!this.isInFocus) return;
+	onBlur(isTriggered, force) {
+		if (!this.isInFocus && !force) return;
 		if (this.tl) this.tl.kill();
 		this.isInFocus = false;
 		const dur = isTriggered ? 0.36 : 0.166;
