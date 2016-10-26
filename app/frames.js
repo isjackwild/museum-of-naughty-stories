@@ -15,6 +15,7 @@ const FRAME_DEPTH = 3;
 export class Frame extends THREE.Object3D {
 	constructor({ position, rotationY, imageSrc, audioSrc, audioScene }) {
 		super();
+
 		this.ready = false;
 		this.aspectRatio = 0;
 		this.rotation.y = rotationY;
@@ -76,9 +77,13 @@ export class Frame extends THREE.Object3D {
 
 	onDecodeSound(buffer) {
 		this.loudSpeaker = this.audioScene.createPanner(buffer);
-		this.loudSpeaker.panner.setPosition(this.position.x, this.position.y, this.position.z);
+
 		const dir = this.getWorldDirection();
-		this.loudSpeaker.panner.setOrientation(dir.x, dir.y, dir.z);
+		const position = new THREE.Vector3().copy(this.position).add(new THREE.Vector3().copy(dir).multiplyScalar(VIEW_DISTANCE));
+		// const position = new THREE.Vector3().copy(this.position);
+
+		this.loudSpeaker.panner.setPosition(position.x, WORLD_DIMENTIONS.y / 2, position.z);
+		this.loudSpeaker.panner.setOrientation(0, -1, 0);
 		this.loudSpeaker.source.start(0);
 
 		if (window.app.debug) {
@@ -86,9 +91,8 @@ export class Frame extends THREE.Object3D {
 			this.parent.add(loudSpeakerLight);
 			this.parent.add(loudSpeakerLight.target);
 			loudSpeakerLight.distance = 200;
-
-			loudSpeakerLight.position.copy(this.position);
-			const tmp = new THREE.Vector3().copy(this.position).add(dir.multiplyScalar(120));
+			loudSpeakerLight.position.set(position.x, WORLD_DIMENTIONS.y / 2, position.z);
+			const tmp = new THREE.Vector3(position.x, WORLD_DIMENTIONS.y / -2, position.z);
 			loudSpeakerLight.target.position.copy(tmp);
 			loudSpeakerLight.angle = this.loudSpeaker.panner.coneOuterAngle * 0.0174533 / 2;
 			loudSpeakerLight.target.updateMatrixWorld();

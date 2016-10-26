@@ -69,6 +69,80 @@ e {
 	vertical-align: middle;
 }
 
+.viewfinder {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 18vw;
+	height: 18vh;
+	transform: translate(-50%, -50%);
+	background: rgba(#fff, 0.1);
+	opacity: 0.5;
+}
+
+.viewfinder__corner {
+	position: absolute;
+	width: 15px;
+	height: 15px;
+}
+
+.viewfinder__corner--tl {
+	border-top: 1px solid #fff;
+	border-left: 1px solid #fff;
+	top: 0;
+	left: 0;
+}
+
+.viewfinder__corner--tr {
+	border-top: 1px solid #fff;
+	border-right: 1px solid #fff;
+	top: 0;
+	right: 0;
+}
+
+.viewfinder__corner--bl {
+	border-bottom: 1px solid #fff;
+	border-left: 1px solid #fff;
+	bottom: 0;
+	left: 0;
+}
+
+.viewfinder__corner--br {
+	border-bottom: 1px solid #fff;
+	border-right: 1px solid #fff;
+	bottom: 0;
+	right: 0;
+}
+
+.viewfinder__c {
+	width: 21px;
+	height: 21px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.viewfinder__c:before {
+	content: '';
+	position: absolute;
+	left: 10px;
+	height: 100%;
+	width: 1px;
+	display: block;
+	background: #fff;
+}
+
+.viewfinder__c:after {
+	content: '';
+	position: absolute;
+	top: 10px;
+	height: 1px;
+	width: 100%;
+	display: block;
+	background: #fff;
+}
+
 .text--credit {
 	font-size: 14px;
 	letter-spacing: 0.7px;
@@ -127,10 +201,6 @@ e {
 	right: 0;
 }
 
-// .canvas {
-// 	filter: blur(10px);
-// }
-
 .shim {
 	background: rgba(#00b3a4, 0.95);
 	background: linear-gradient(188deg, rgba(0, 179, 164, 0.95) 0%, rgba(#9e9e9e, 0.95) 94%);
@@ -162,6 +232,11 @@ e {
 	flex-direction: column;
 	pointer-events: none;
 	// display: none;
+}
+
+.content-frame--jump span {
+	margin-top: 30px;
+	transform: translateY(10vh);
 }
 
 .content-frame--loading, .content-frame--rotate, .content-frame--device {

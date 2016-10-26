@@ -1,5 +1,5 @@
 // AUDIO
-export const GAIN = 11;
+export const GAIN = 7;
 
 
 

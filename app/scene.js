@@ -68,10 +68,10 @@ export const update = (delta) => {
 	if (loops % 10 === 0 && window.app.introFinished) updateRaycaster(position, direction, jumpPoints);
 	positionListener(position, direction);
 
+	for (let lightHelper of lightHelpers) {
+		lightHelper.update();
+	}
 
-	lightHelpers.forEach((helper) => {
-		helper.update();
-	});
 	if (bbox) bbox.update();
 	if (controls) controls.update(delta);
 	loops++

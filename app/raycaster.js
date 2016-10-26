@@ -8,9 +8,10 @@ export const update = (origin, direction, intersectableObjects = []) => {
 	// intersects.forEach((mesh) => {
 	// 	console.log(mesh);
 	// });
-	intersectableObjects.forEach((object) => {
+
+	for (let object of intersectableObjects) {
 		const res = raycaster.intersectObject(object, true);
 		if (res.length) return object.onFocus();
 		object.onBlur();
-	});
+	}
 }

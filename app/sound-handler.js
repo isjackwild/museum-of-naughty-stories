@@ -1,11 +1,11 @@
 const THREE = require('three');
-import { GAIN } from './constants.js';
+import { GAIN, WORLD_DIMENTIONS } from './constants.js';
 
-const INNER_ANGLE = 22.5;
-const OUTER_ANGLE = 35;
-const OUTER_GAIN = 0.06;
-const ROLLOFF = 25;
-const REF_DIST = 1;
+const INNER_ANGLE = 0;
+const OUTER_ANGLE = 65;
+const OUTER_GAIN = 0.001;
+const ROLLOFF = 10;
+const REF_DIST = WORLD_DIMENTIONS.y / 2;
 const DIST_MODEL = 'exponential';
 let isUnlocked = false;
 
