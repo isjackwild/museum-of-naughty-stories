@@ -2,9 +2,9 @@ const THREE = require('three');
 import { GAIN } from './constants.js';
 
 const INNER_ANGLE = 22.5;
-const OUTER_ANGLE = 45;
-const OUTER_GAIN = 0.15;
-const ROLLOFF = 0.022;
+const OUTER_ANGLE = 35;
+const OUTER_GAIN = 0.06;
+const ROLLOFF = 25;
 const REF_DIST = 1;
 const DIST_MODEL = 'exponential';
 let isUnlocked = false;

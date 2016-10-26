@@ -15,7 +15,7 @@ export let camera, controls;
 
 
 export const init = () => {
-	camera = new THREE.PerspectiveCamera(60, window.app.width / window.app.height, 1, 10000);
+	camera = new THREE.PerspectiveCamera(70, window.app.width / window.app.height, 1, 10000);
 	camera.position.set(0.1, -30, 0);
 	controls = new THREE.OrbitControls(camera, document.getElementsByClassName('canvas')[0]);
 

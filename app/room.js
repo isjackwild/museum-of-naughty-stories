@@ -1,5 +1,5 @@
 const THREE = require('three');
-import { WORLD_DIMENTIONS } from './constants';
+import { WORLD_DIMENTIONS, FLOOR_COLOUR } from './constants';
 import { textureLoader } from './loader.js';
 export const walls = [];
 export const materials = [];
@@ -22,7 +22,7 @@ textures.floor.bumpMap.wrapT = THREE.RepeatWrapping;
 
 
 const wallsMaterial = new THREE.MeshStandardMaterial({
-	color: 0xfffefc,
+	color: 0xdfdfdf,
 	bumpMap: textures.walls.bumpMap,
 	bumpScale: 2,
 	roughness: 0.8,
@@ -72,7 +72,7 @@ walls[4].receiveShadow = true;
 geom = new THREE.PlaneGeometry(WORLD_DIMENTIONS.x, WORLD_DIMENTIONS.z);
 const floorMaterial = new THREE.MeshStandardMaterial({
 	// color: 0x222222,
-	color: 0x0090a3,
+	color: FLOOR_COLOUR,
 	roughnessMap: textures.floor.specularMap,
 	roughness: 0.22,
 	bumpMap: textures.walls.bumpMap,

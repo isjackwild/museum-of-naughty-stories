@@ -28,8 +28,8 @@ export class Frame extends THREE.Object3D {
 
 		this.updateMatrixWorld();
 		const dir = this.getWorldDirection();
-		const inFront = new THREE.Vector3().copy(this.position).add(dir.multiplyScalar(VIEW_DISTANCE));
-		this.jumpPoint = new JumpPoint(inFront, rotationY, position);
+		// const inFront = new THREE.Vector3().copy(this.position).add(dir.multiplyScalar(VIEW_DISTANCE));
+		this.jumpPoint = new JumpPoint(position, dir, rotationY);
 
 		this.loadImage();
 		if (audioSrc) this.loadSound();

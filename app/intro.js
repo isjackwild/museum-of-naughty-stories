@@ -10,6 +10,9 @@ const welcomeContent = welcome.getElementsByTagName('span');
 const instructions = document.getElementsByClassName('content-frame--instructions')[0];
 const instructionsContent = instructions.getElementsByTagName('span');
 const gotItButton = document.getElementsByClassName('button--got-it')[0];
+const aboutButton = document.getElementsByClassName('button--about')[0];
+
+const jumpPoint = document.getElementsByClassName('content-frame--jump')[0];
 
 let tl = null;
 const STAGGER = 0.06;
@@ -59,9 +62,23 @@ export const startIntro = () => {
 		ease: Power2.easeIn,
 	},
 	STAGGER);
-	tl.to(shim, 0.9, {
+	tl.to(aboutButton, 0.66, {
+		opacity: 1,
+	},
+	"-=0.4");
+	tl.to(shim, 0.66, {
 		opacity: 0,
 		onComplete: () => { PubSub.publish('intro.complete') },
 	},
 	"-=0.4");
+	tl.to(jumpPoint, 0.66, {
+		opacity: 1,
+	},
+	"-=0.4");
+
+	PubSub.subscribe('camera.moveTo', () => {
+		TweenLite.to(jumpPoint, 0.66, {
+			opacity: 0,
+		});
+	});
 }

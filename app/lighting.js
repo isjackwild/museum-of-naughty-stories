@@ -1,5 +1,5 @@
 const THREE = require('three');
-import { WORLD_DIMENTIONS, LIGHTING_DIMENTIONS, LIGHTS_SPREAD_Z, LIGHT_COLOUR, LIGHT_INTENSITY, DECAY, ANGLE, PENUMBRA, SPOT_INTENSITY } from './constants';
+import { WORLD_DIMENTIONS, LIGHTING_DIMENTIONS, LIGHTS_SPREAD_Z, LIGHT_COLOUR, SPOT_COLOUR, LIGHT_INTENSITY, DECAY, ANGLE, PENUMBRA, SPOT_INTENSITY, SPOT_DIST } from './constants';
 
 export const lights = [];
 export const helpers = [];
@@ -102,10 +102,10 @@ const setupPointLights = () => {
 
 const setupSpotlights = (frames) => {
 	frames.forEach((frame) => {
-		const spot = new THREE.SpotLight(0xffffff, SPOT_INTENSITY);
+		const spot = new THREE.SpotLight(SPOT_COLOUR, SPOT_INTENSITY);
 		// spot.position.set(frame.position.x / 1.7, (WORLD_DIMENTIONS.y / 2), frame.position.z);
 		const dir = frame.getWorldDirection(tmp);
-		const tmp = new THREE.Vector3().copy(frame.position).add(dir.multiplyScalar(180));
+		const tmp = new THREE.Vector3().copy(frame.position).add(dir.multiplyScalar(SPOT_DIST));
 		// tmp.multiplyScalar();
 		spot.position.set(tmp.x, (WORLD_DIMENTIONS.y / 2), tmp.z);
 

@@ -1,26 +1,31 @@
 const THREE = require('three');
-import { VIEW_DISTANCE, TRIGGER_DURATION, FRAME_COLOUR } from './constants';
+import { VIEW_DISTANCE, TARGET_DISTANCE, TRIGGER_DURATION, FRAME_COLOUR, JUMP_POINT_COLOUR } from './constants';
 import { Noise } from 'noisejs';
 import { generateGuid } from './lib/maths.js';
 import PubSub from 'pubsub-js';
 const TweenLite = require('gsap');
 
-const INACTIVE_SCALE = 0.4;
+const INACTIVE_SCALE = 0.5;
 const INACTIVE_POSITION = -20;
 const INACTIVE_OPACITY = 0.6;
 const MAX_NOISE_OFFSET = 10;
+const MAX_NOISE_SCALE = 0.13;
 const NOISE_SPEED = 10000;
 
 export class JumpPoint extends THREE.Object3D {
-	constructor(position, rotationY, viewTarget) {
+	constructor(position, dir, rotationY) {
 		super();
+
+
+
 		this.guid = generateGuid();
 		this.isInFocus = false;
 		this.isActive = true;
 		this.rotation.y = rotationY;
-		this.originalPosition = position;
-		this.position.copy(position);
-		this.viewTarget = viewTarget;
+		this.originalPosition = new THREE.Vector3().copy(position).add(new THREE.Vector3().copy(dir).multiplyScalar(TARGET_DISTANCE));
+		this.cameraMoveToPosition = new THREE.Vector3().copy(position).add(new THREE.Vector3().copy(dir).multiplyScalar(VIEW_DISTANCE));
+		this.position.copy(this.originalPosition);
+		this.viewTarget = position;
 		this.targetMaterial = null;
 		this.tl = null;
 		this.noise = new Noise(Math.random());
@@ -46,7 +51,7 @@ export class JumpPoint extends THREE.Object3D {
 	setupTarget() {
 		const geom = new THREE.SphereGeometry(25, 25, 32);
 		const material = new THREE.MeshStandardMaterial({
-			color: FRAME_COLOUR,
+			color: JUMP_POINT_COLOUR,
 			metalness: 0,
 			roughness: 0,
 			transparent: true,
@@ -65,7 +70,11 @@ export class JumpPoint extends THREE.Object3D {
 			this.noise.simplex3(0, 0, now) * MAX_NOISE_OFFSET,
 		).add(this.originalPosition);
 
+		const s = 1 + (this.noise.simplex2(now, 0) * MAX_NOISE_SCALE);
+		const scale = new THREE.Vector3(s, s, s);
+
 		this.position.copy(position)
+		this.scale.copy(scale);
 		this.raf = requestAnimationFrame(this.noiseOffset.bind(this));
 	}
 
@@ -76,7 +85,8 @@ export class JumpPoint extends THREE.Object3D {
 		if (this.tl) this.tl.kill();
 
 		const onComplete = () => {
-			PubSub.publish('camera.moveTo', { position: this.position, target: this.viewTarget, guid: this.guid });
+			console.log(this.cameraMoveToPosition, this.position);
+			PubSub.publish('camera.moveTo', { position: this.cameraMoveToPosition, target: this.viewTarget, guid: this.guid });
 			this.onBlur(true);
 			this.isActive = false;
 		};

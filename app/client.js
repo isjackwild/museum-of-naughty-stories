@@ -19,7 +19,7 @@ const backButton = document.getElementsByClassName('button--back')[0];
 const about = document.getElementsByClassName('content-frame--about')[0];
 const shim = document.getElementsByClassName('shim')[0];
 let aboutShown = false;
-const ABOUT_TRANSITION_DURATION = 0.4;
+const ABOUT_TRANSITION_DURATION = 0.2;
 
 if (!Modernizr.deviceorientation || !Modernizr.devicemotion || !Modernizr.touchevents) {
 	document.body.classList.add('unsupported');
@@ -70,6 +70,9 @@ const kickIt = () => {
 
 const showAbout = () => {
 	if (aboutShown) return;
+	backButton.style.pointerEvents = 'auto';
+	aboutButton.style.pointerEvents = 'none';
+
 	const tl = new TimelineLite();
 	tl.to(shim, ABOUT_TRANSITION_DURATION, {
 		opacity: 1,
@@ -88,6 +91,9 @@ const showAbout = () => {
 
 const hideAbout = () => {
 	if (!aboutShown) return;
+	backButton.style.pointerEvents = 'none';
+	aboutButton.style.pointerEvents = 'auto';
+	
 	const tl = new TimelineLite();
 	tl.to(shim, ABOUT_TRANSITION_DURATION, {
 		opacity: 0,
